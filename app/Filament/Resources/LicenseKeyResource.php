@@ -27,7 +27,7 @@ class LicenseKeyResource extends Resource
                         // Dropdown untuk memilih Customer, menampilkan nama dan email
                         Forms\Components\Select::make('customer_id')
                             ->relationship('customer', 'name')
-                            ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->name} - {$record->email}")
+                            ->getOptionLabelFromRecordUsing(fn($record) => "{$record->name} - {$record->email}")
                             ->searchable(['name', 'email'])
                             ->required(),
 
@@ -86,11 +86,12 @@ class LicenseKeyResource extends Resource
                     ->sortable(),
 
                 // Kolom untuk Status dengan warna
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->colors([
                         'success' => 'active',
                         'warning' => 'inactive',
-                        'danger' => fn ($state) => in_array($state, ['expired', 'revoked']),
+                        'danger' => fn($state) => in_array($state, ['expired', 'revoked']),
                     ]),
 
                 // Kolom untuk Tanggal Kadaluwarsa
