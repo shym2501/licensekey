@@ -61,4 +61,9 @@ class LicenseKey extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function activations()
+    {
+        return $this->hasMany(LicenseActivation::class);
+    }
 }
