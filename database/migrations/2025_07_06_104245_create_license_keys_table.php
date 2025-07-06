@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('license_keys', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
+            $table->string('key')->unique();
+            $table->string('status')->default('active'); // active, inactive, expired, revoked
+            $table->integer('activations_limit')->default(1);
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }
