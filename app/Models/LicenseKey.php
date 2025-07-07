@@ -5,11 +5,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+use Spatie\Activitylog\Traits\LogsActivity; // <-- Tambahkan use statement ini
+use Spatie\Activitylog\LogOptions;
 
 class LicenseKey extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     // Tambahkan 'key' agar bisa diisi secara massal
     protected $fillable = [
@@ -25,6 +26,16 @@ class LicenseKey extends Model
     protected $casts = [
         'expires_at' => 'datetime',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // Untuk lisensi, kita lacak semua perubahan
+            ->logOnlyDirty() // <-- PENTING
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "The license {$this->key} has been {$eventName}")
+            ->useLogName('License Key');
+    }
 
     // --- LOGIKA UTAMA ADA DI SINI ---
     protected static function boot(): void
