@@ -4,6 +4,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LicenseKeyResource\Pages;
+use App\Filament\Resources\LicenseKeyResource\RelationManagers;
 use App\Models\LicenseKey;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -126,7 +127,7 @@ class LicenseKeyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ActivationsRelationManager::class,
         ];
     }
 
